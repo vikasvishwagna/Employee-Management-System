@@ -1,15 +1,13 @@
 import React, { useState } from 'react'
 
-function Login() {
+function Login({handleLogin}) {
 
   const[email, setEmail] = useState("");
   const[password, setPassword] = useState("");
 
   const handleSubmit = (e)=>{
     e.preventDefault();
-    console.log("email is ",email);
-    console.log("password is ",password)
-    console.log("form submitted")
+    handleLogin(email,password)
     setEmail("");
     setPassword("");
   }
@@ -18,6 +16,7 @@ function Login() {
       <p className='text-5xl font-bold mb-15 '>Login Page</p>
       <div className='login-container border-3 border-emerald-800 rounded-3xl px-6 py-15'>
         {/* <p>Login</p> */}
+        
         <form onSubmit={(e)=>{handleSubmit(e)}} className='flex flex-col gap-2'>
 
           <input value={email} onChange={(e)=>setEmail(e.target.value)}
