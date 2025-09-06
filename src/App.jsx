@@ -9,31 +9,47 @@ import { AuthContext } from "./context/AuthProvider";
 function App() {
 
 const[user, setUser] = useState(null);
+const [loggedInUserData, setLoggedInUserData] = useState(null)
 
 const authData = useContext(AuthContext);
-console.log(authData)
+
+
+
+// useEffect(() => {
+//   if(authData){
+//     const loggedInUser = localStorage.getItem("loggedInUser");
+//     if(loggedInUser){
+//       setUser(loggedInUser.role)
+//     }
+//   }
+// }, [authData])
+
 
 const handleLogin = (email,password)=>{
   if(email == "admin@me.com" && password =="123"){
     setUser("admin"); 
-  }else if(email == "user@me.com" && password =="123"){
-    setUser("employee");
+    localStorage.setItem("loggedInUser", JSON.stringify({role:"admin"}));
+  }else if(authData){
+    const employee = authData.employees.find((obj)=>obj.email == email && obj.password == password)
+    if(employee){
+      setUser("employee");
+      setLoggedInUserData(employee)// emp-> id:1 or id:3...
+      localStorage.setItem("loggedInUser", JSON.stringify({role:"employee"}));
+    }
   }else{
   alert("Invalid crediantals");
 }
 }
 
- // loading state (before authData is available)
-  if (!authData) {
-    return <h2>Loading...</h2>;
-  }
-
-
 
   return (
     <>
       {!user ? <Login handleLogin={handleLogin} /> :''}
-      {user == "admin" ? <AdminDashboard /> : <EmployeeDashboard />}
+
+      {user == "admin" ? (<AdminDashboard />) :
+       user == "employee" ? (<EmployeeDashboard data={loggedInUserData}/>) :
+       (null)
+       }
     </>
   );
 }
