@@ -5,7 +5,7 @@ import FailedTask from './FailedTask'
 import NewTask from './NewTask'
 
 function TaskList({data}) {
-  console.log("taskL",data)
+  // console.log("taskL",data)
   if (!data || !data.tasks) {
     return <p>No tasks available</p>; // avoid crash
   }
