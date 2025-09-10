@@ -10,7 +10,7 @@ const CreateTask = () => {
             <input
               className="bg-[#433f3f] text-sm py-2 px-3 w-4/5 border-2 border-gray-200 rounded-md"
               type="text"
-              placeholder="Make a UI design"
+              placeholder="eg: Make a UI design"
             />
           </div>
 

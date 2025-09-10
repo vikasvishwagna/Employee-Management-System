@@ -8,8 +8,8 @@ export const AuthContext =  createContext();
 const AuthProvider = ({children}) => {
 
   const [userData, setUserData] = useState(null);
-  console.log("userData",userData)
-    console.log("userData",userData)
+  // console.log("userData",userData)
+  //   console.log("userData",userData)
 
   
   useEffect(() => {

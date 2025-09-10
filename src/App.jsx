@@ -16,7 +16,7 @@ const authData = useContext(AuthContext);
 
 useEffect(()=>{
   const loggedInUser = localStorage.getItem("loggedInUser");
-  console.log(loggedInUser)
+  // console.log(loggedInUser)
 },[])
 
 
