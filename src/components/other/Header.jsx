@@ -1,10 +1,12 @@
 import React from 'react'
 
-function Header({ data }) {
+function Header({changeUser, data }) {
 
+  console.log(changeUser)
 
   const handleClick = ()=>{
-    window.location.reload();
+    // window.location.reload();
+    changeUser("");
   }
   
   return (
