@@ -1,36 +1,60 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState, useEffect } from "react";
+import { AuthContext } from "../../context/AuthProvider";
 
 const CreateTask = () => {
+
+  const[userData, setUserData] = useContext(AuthContext);
+
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDescription, setTaskDescription] = useState("");
   const [taskDate, setTaskDate] = useState("");
   const [asignTo, setAsignTo] = useState("");
   const [category, setCategory] = useState("");
 
-  const [newTask, setNewTask] = useState({});
+  // const [newTask, setNewTask] = useState({});
 
   const submitHandler = (e) => {
     e.preventDefault();
-    // console.log(taskDescription,taskDate,taskTitle)
-    setNewTask({
-      taskTitle,
-      taskDate,
-      taskDescription,
-      category,
-      active: false,
-      newTask: true,
-      failed: false,
-      completed: false,
-    });
+    
+    // setNewTask({taskTitle,taskDate,taskDescription,category,active: false,newTask: true,failed: false,completed: false,
+    // });
+    const newTaskObj = {
+  taskTitle,
+  taskDate,
+  taskDescription,
+  category,
+  active: false,
+  newTask: true,
+  failed: false,
+  completed: false,
+};
 
-    const data = JSON.parse(localStorage.getItem("employees"));
+   // Create a new array, don’t mutate directly
+  const updatedEmployeesData = userData.employees.map((ele) => {
+    if (ele.firstName === asignTo) {
+      return {
+        ...ele,
+        tasks: [...ele.tasks, newTaskObj],
+        taskNumber: {
+          ...ele.taskNumber,
+          newTask: ele.taskNumber.newTask + 1,
+        },
+      };
+    }
+    return ele;
+  });
 
-    data.forEach((ele) => {
-      if (ele.firstName == asignTo) {
-        ele.tasks.push(newTask);
-      }
-    });
+  // Update context with full userData (not undefined!)
+  const updatedUserData = { ...userData, employees: updatedEmployeesData };
+  setUserData(updatedUserData);
+
+  // Also update localStorage
+  localStorage.setItem("employees", JSON.stringify(updatedEmployeesData));
+  localStorage.setItem("admin", JSON.stringify(userData.admin));
+
+  console.log(updatedUserData);
+  
 
     setTaskTitle("")
     setTaskDescription("")
@@ -39,7 +63,6 @@ const CreateTask = () => {
     setCategory("")
     
   };
-
   return (
     <div className="bg-[#1C1C1C] mt-5 p-5 rounded">
       <form
